@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jessie.LibraryManagement.mapper.BookMapper">
+
+    <resultMap id="BaseResultMap" type="com.jessie.LibraryManagement.entity.Book">
+            <id property="ISBN" column="ISBN" jdbcType="VARCHAR"/>
+            <result property="bookName" column="bookName" jdbcType="VARCHAR"/>
+            <result property="author" column="author" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ISBN,bookName,
+        author,type
+    </sql>
+    <insert id="insertAll">
+        insert into book
+        (ISBN, bookName,
+         author, type)
+        values (#{ISBN,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR},
+                #{author,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+
+    </insert>
+    <select id="searchAllByBookName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from book
+        where
+        match (bookName) against(#{bookName} IN natural language MODE);
+    </select>
+    <select id="selectOneByISBN" resultMap="BaseResultMap">
+        # ALTER TABLE `book` ADD FULLTEXT INDEX index_bookname_ngram (`bookName`) WITH PARSER ngram;
+        # 建立全文索引
+        select
+        <include refid="Base_Column_List"/>
+        from book
+        where
+        ISBN = #{ISBN}
+    </select>
+
+</mapper>
