@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jessie.LibraryManagement.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.jessie.LibraryManagement.entity.User">
+            <id property="uid" column="uid" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="realName" column="realName" jdbcType="VARCHAR"/>
+            <result property="role" column="role" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,username,password,
+        realName,role
+    </sql>
+    <insert id="insertAll">
+        insert into user
+        (uid, username, password,
+         realName, role)
+        values (#{uid,jdbcType=NUMERIC}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{realName,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
+
+    </insert>
+    <select id="selectOneByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        username = #{username,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertSelective">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">uid,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="realName != null">realName,</if>
+            <if test="role != null">role,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid,jdbcType=INTEGER},</if>
+            <if test="username != null">#{username,jdbcType=VARCHAR},</if>
+            <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+            <if test="realName != null">#{realName,jdbcType=VARCHAR},</if>
+            <if test="role != null">#{role,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <select id="selectUidByUsername" resultMap="BaseResultMap">
+        select uid
+        from user
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+</mapper>

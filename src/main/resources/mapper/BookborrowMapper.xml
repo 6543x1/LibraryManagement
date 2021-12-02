@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jessie.LibraryManagement.mapper.BookborrowMapper">
+
+    <resultMap id="BaseResultMap" type="com.jessie.LibraryManagement.entity.Bookborrow">
+            <result property="bookID" column="bookID" jdbcType="INTEGER"/>
+            <result property="bookBorrower" column="bookBorrower" jdbcType="INTEGER"/>
+            <result property="days" column="days" jdbcType="INTEGER"/>
+            <result property="borrowTime" column="borrowTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        bookID,bookBorrower,days,
+        borrowTime
+    </sql>
+    <insert id="insertAll">
+        insert into bookborrow
+        (bookID, bookBorrower, days,
+         borrowTime)
+        values (#{bookID,jdbcType=NUMERIC}, #{bookBorrower,jdbcType=NUMERIC}, #{days,jdbcType=NUMERIC},
+                #{borrowTime})
+
+    </insert>
+    <select id="selectAllByBookBorrower" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bookborrow
+        where
+        bookBorrower = #{bookBorrower,jdbcType=NUMERIC}
+    </select>
+    <select id="selectAllByBookID" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bookborrow
+        where
+        bookID = #{bookID,jdbcType=NUMERIC}
+    </select>
+</mapper>
