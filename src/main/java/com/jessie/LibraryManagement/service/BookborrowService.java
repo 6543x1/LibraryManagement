@@ -22,4 +22,7 @@ public interface BookborrowService extends IService<Bookborrow> {
     List<BookBorrowVo> notFinishedBorrowed(int uid);
 
     List<BookBorrowVo> finishedBorrow(int uid);
+
+
+    List<BookBorrowVo> allNotFinished();
 }

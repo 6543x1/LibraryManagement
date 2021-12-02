@@ -58,4 +58,11 @@ public class BookController {
         return Result.success("查询成功！",bookBorrowVos);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
+    @PostMapping(value = "/allBorrowed")
+    public Result allBorrowed(){
+        List<BookBorrowVo> bookBorrowVos= bookborrowService.allNotFinished();
+        return Result.success("查询成功",bookBorrowVos);
+    }
+
 }

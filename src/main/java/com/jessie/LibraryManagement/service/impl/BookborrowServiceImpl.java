@@ -42,6 +42,11 @@ public class BookborrowServiceImpl extends ServiceImpl<BookborrowMapper, Bookbor
     public List<BookBorrowVo> finishedBorrow(int uid){
         return bookborrowMapper.Borrowed(uid);
     }
+
+    @Override
+    public List<BookBorrowVo> allNotFinished(){
+        return bookborrowMapper.allNotFinishedBorrowed();
+    }
 }
 
 

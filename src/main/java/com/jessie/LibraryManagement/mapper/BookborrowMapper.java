@@ -35,6 +35,10 @@ public interface BookborrowMapper extends BaseMapper<Bookborrow> {
             "where b.bookID in (select bookID from bookborrow b4 where b4.bookBorrower=#{uid} and b4.finished=false)")
     List<BookBorrowVo> notFinishedBorrowed(int uid);
 
+    @Select("select * from bookborrow b join bookinfo b2 on b.bookID = b2.bookID join book b3 on b2.ISBN =b3.ISBN " +
+            "where b.bookID in (select bookID from bookborrow b4 where b4.finished=false)")
+    List<BookBorrowVo> allNotFinishedBorrowed();
+
 }
 
 
