@@ -12,7 +12,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        bookID,bookBorrower,days,
+        borrowID,bookID,bookBorrower,days,
         borrowTime
     </sql>
     <insert id="insertAll">

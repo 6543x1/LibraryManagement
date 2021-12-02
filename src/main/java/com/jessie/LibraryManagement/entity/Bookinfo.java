@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 
@@ -13,12 +16,14 @@ import lombok.Data;
  */
 @TableName(value ="bookinfo")
 @Data
+@Builder
+@EqualsAndHashCode
 public class Bookinfo implements Serializable {
     /**
      * 
      */
     @TableId(value = "bookID", type = IdType.AUTO)
-    private Integer bookID;
+    private int bookID;
 
     /**
      * 
@@ -32,35 +37,13 @@ public class Bookinfo implements Serializable {
     @TableField(value = "ISBN")
     private String ISBN;
 
+    @TableField(value = "borrowed")
+    private boolean borrowed;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Bookinfo other = (Bookinfo) that;
-        return (this.getBookID() == null ? other.getBookID() == null : this.getBookID().equals(other.getBookID()))
-            && (this.getPosition() == null ? other.getPosition() == null : this.getPosition().equals(other.getPosition()))
-            && (this.getISBN() == null ? other.getISBN() == null : this.getISBN().equals(other.getISBN()));
-    }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getBookID() == null) ? 0 : getBookID().hashCode());
-        result = prime * result + ((getPosition() == null) ? 0 : getPosition().hashCode());
-        result = prime * result + ((getISBN() == null) ? 0 : getISBN().hashCode());
-        return result;
-    }
 
     @Override
     public String toString() {

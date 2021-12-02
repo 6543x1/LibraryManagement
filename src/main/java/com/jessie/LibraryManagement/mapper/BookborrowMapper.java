@@ -1,11 +1,14 @@
 package com.jessie.LibraryManagement.mapper;
 import java.util.List;
 
+import com.jessie.LibraryManagement.entity.BookBorrowVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.jessie.LibraryManagement.entity.Bookborrow;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
 * @author 16473
@@ -20,6 +23,18 @@ public interface BookborrowMapper extends BaseMapper<Bookborrow> {
     List<Bookborrow> selectAllByBookBorrower(@Param("bookBorrower") Integer bookBorrower);
 
     List<Bookborrow> selectAllByBookID(@Param("bookID") Integer bookID);
+
+    @Update("update bookborrow set finished=true where bookID=#{bookID} and bookBorrower=#{uid}")
+    void finishBorrow(int bookID,int uid);
+
+    @Select("select * from bookborrow b join bookinfo b2 on b.bookID = b2.bookID join book b3 on b2.ISBN =b3.ISBN " +
+            "where b.bookID in (select bookID from bookborrow b4 where b4.bookBorrower=#{uid} and b4.finished=true)")
+    List<BookBorrowVo> Borrowed(int uid);
+
+    @Select("select * from bookborrow b join bookinfo b2 on b.bookID = b2.bookID join book b3 on b2.ISBN =b3.ISBN " +
+            "where b.bookID in (select bookID from bookborrow b4 where b4.bookBorrower=#{uid} and b4.finished=false)")
+    List<BookBorrowVo> notFinishedBorrowed(int uid);
+
 }
 
 

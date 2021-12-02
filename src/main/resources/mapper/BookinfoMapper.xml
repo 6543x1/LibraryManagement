@@ -19,12 +19,6 @@
         values (#{bookID,jdbcType=NUMERIC}, #{position,jdbcType=VARCHAR}, #{ISBN,jdbcType=VARCHAR})
 
     </insert>
-    <insert id="insertAll">
-        insert into bookinfo
-            (bookID, position, ISBN)
-        values (#{bookID,jdbcType=NUMERIC}, #{position,jdbcType=VARCHAR}, #{ISBN,jdbcType=VARCHAR})
-
-    </insert>
     <insert id="insertSelective">
         insert into bookinfo
         <trim prefix="(" suffix=")" suffixOverrides=",">

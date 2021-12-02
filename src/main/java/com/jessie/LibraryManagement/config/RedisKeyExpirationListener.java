@@ -2,11 +2,6 @@ package com.jessie.LibraryManagement.config;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.jessie.LibraryManagement.service.NoticeConfirmersService;
-import com.jessie.LibraryManagement.service.NoticeService;
-import com.jessie.LibraryManagement.service.SigninSignedService;
-import com.jessie.LibraryManagement.service.VoteVotersService;
-import com.jessie.LibraryManagement.service.impl.PushService;
 import com.jessie.LibraryManagement.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +24,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
 
     @Autowired
     RedisUtil redisUtil;
-    @Autowired
-    NoticeService noticeService;
-    @Autowired
-    PushService pushService;
-    @Autowired
-    NoticeConfirmersService noticeConfirmersService;
-    @Autowired
-    VoteVotersService voteVotersService;
-    @Autowired
-    SigninSignedService signinSignedService;
+
 
 
     public RedisKeyExpirationListener(RedisMessageListenerContainer listenerContainer) {
@@ -58,21 +44,19 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             String classID = Key[3];
             int nid = Integer.parseInt(Key[5]);
             Set<String> notConfirmed = redisUtil.sDifference("class:" + classID + ":type:" + "noticeConfirmed" + ":" + "nid:" + nid, "class:" + classID + ":" + "type:" + "members");
-            noticeService.urge(notConfirmed);
-            pushService.pushUrgeWechatMessage(notConfirmed, "公告", "老师催你了去读公告了！", "无摘要");
-            noticeConfirmersService.newConfirmers(nid, JSONObject.toJSONString(redisUtil.get("class:" + classID + ":type:" + "noticeConfirmed" + ":" + "nid:" + nid)));
+
             //超时的...先不加进去吧
         } else if ("VoteDeadLine".equals(type)) {
             String classID = Key[3];
             int vid = Integer.parseInt(Key[5]);
-            voteVotersService.newVoters(vid, redisUtil.get("class:" + classID + ":" + "type:" + "members"));
+
             //累了，只先保存投了的人吧
             //选项对应的人不存了不存了
         } else if ("signInExpire".equals(type)) {
             String classID = Key[3];
             int signID = Integer.parseInt(Key[5]);
             Set<String> SignInList = redisUtil.sDifference("class:" + classID + ":type:" + "signIn" + ":" + "signId:" + signID, "class:" + classID + ":" + "type:" + "members");
-            signinSignedService.newSigned(signID, JSONObject.toJSONString(SignInList));
+
         } else {
             log.info("Detected Expired Key: " + theInfo);
         }

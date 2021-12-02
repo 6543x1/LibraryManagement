@@ -1,7 +1,10 @@
 package com.jessie.LibraryManagement.service;
 
+import com.jessie.LibraryManagement.entity.BookBorrowVo;
 import com.jessie.LibraryManagement.entity.Bookborrow;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
 * @author 16473
@@ -10,4 +13,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface BookborrowService extends IService<Bookborrow> {
 
+    void newBookBorrow(Bookborrow bookborrow);
+
+    List<Bookborrow> getReaderBorrow(int uid);
+
+    void finishBorrow(int bookID, int uid);
+
+    List<BookBorrowVo> notFinishedBorrowed(int uid);
+
+    List<BookBorrowVo> finishedBorrow(int uid);
 }

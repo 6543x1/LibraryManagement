@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 
@@ -14,24 +17,29 @@ import lombok.Data;
  */
 @TableName(value ="bookborrow")
 @Data
+@EqualsAndHashCode
+@Builder
 public class Bookborrow implements Serializable {
+
+    @TableId(value = "borrowID",type = IdType.AUTO)
+    private int borrowID;
     /**
      * 
      */
     @TableField(value = "bookID")
-    private Integer bookID;
+    private int bookID;
 
     /**
      * 
      */
     @TableField(value = "bookBorrower")
-    private Integer bookBorrower;
+    private int bookBorrower;
 
     /**
      * 
      */
     @TableField(value = "days")
-    private Integer days;
+    private int days;
 
     /**
      * 
@@ -39,37 +47,15 @@ public class Bookborrow implements Serializable {
     @TableField(value = "borrowTime")
     private LocalDateTime borrowTime;
 
+    @TableField(value = "finished")
+    private boolean finished;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Bookborrow other = (Bookborrow) that;
-        return (this.getBookID() == null ? other.getBookID() == null : this.getBookID().equals(other.getBookID()))
-            && (this.getBookBorrower() == null ? other.getBookBorrower() == null : this.getBookBorrower().equals(other.getBookBorrower()))
-            && (this.getDays() == null ? other.getDays() == null : this.getDays().equals(other.getDays()))
-            && (this.getBorrowTime() == null ? other.getBorrowTime() == null : this.getBorrowTime().equals(other.getBorrowTime()));
-    }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getBookID() == null) ? 0 : getBookID().hashCode());
-        result = prime * result + ((getBookBorrower() == null) ? 0 : getBookBorrower().hashCode());
-        result = prime * result + ((getDays() == null) ? 0 : getDays().hashCode());
-        result = prime * result + ((getBorrowTime() == null) ? 0 : getBorrowTime().hashCode());
-        return result;
-    }
+
+
 
     @Override
     public String toString() {

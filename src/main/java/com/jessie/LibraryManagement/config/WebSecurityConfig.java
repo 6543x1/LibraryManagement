@@ -2,6 +2,7 @@ package com.jessie.LibraryManagement.config;
 
 
 import com.jessie.LibraryManagement.filter.JwtRequestFilter;
+import com.jessie.LibraryManagement.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,11 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
-    private UserDetailServiceImpl userDetailServiceimpl;
-    @Autowired
     private JwtRequestFilter jwtRequestFilter;
     @Autowired
-    private UserDetailServiceImpl theUserDetailService;
+    private UserServiceImpl theUserDetailService;
     @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler;
 

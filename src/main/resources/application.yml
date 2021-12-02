@@ -7,14 +7,14 @@ server: #端口如果不配默认8080
 
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/classaffairsmanage?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/librarymanager?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: 123456cnm
   mail:
     host: smtp.office365.com
     username: 6543x1@outlook.com
-    password:
+    password: 123456cnmA
     properties:
       mail:
         smtp:
@@ -56,6 +56,7 @@ spring:
     testWhileIdle: true
     #是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
     testOnBorrow: true
+    password: 123456cnmA
   thymeleaf:
     enabled: true
     encoding: UTF-8

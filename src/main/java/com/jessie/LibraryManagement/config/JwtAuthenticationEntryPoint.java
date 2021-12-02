@@ -1,6 +1,7 @@
 package com.jessie.LibraryManagement.config;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jessie.LibraryManagement.entity.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

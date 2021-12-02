@@ -1,12 +1,12 @@
 package com.jessie.LibraryManagement.controller;
 
-import com.jessie.LibraryManagement.config.UserDetailServiceImpl;
 import com.jessie.LibraryManagement.entity.JwtRequest;
 import com.jessie.LibraryManagement.entity.JwtResponse;
 import com.jessie.LibraryManagement.entity.Result;
 import com.jessie.LibraryManagement.entity.User;
 import com.jessie.LibraryManagement.exception.BannedUserException;
 import com.jessie.LibraryManagement.service.UserService;
+import com.jessie.LibraryManagement.service.impl.UserServiceImpl;
 import com.jessie.LibraryManagement.utils.JwtTokenUtil;
 import com.jessie.LibraryManagement.utils.RedisUtil;
 import io.swagger.annotations.Api;
@@ -41,7 +41,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
-    private UserDetailServiceImpl userDetailService;
+    private UserServiceImpl userDetailService;
     @Value("${jwt.header}")
     private String tokenHeader;
     private static Logger logger = LoggerFactory.getLogger(JwtAuthenticationController.class);
@@ -52,7 +52,7 @@ public class JwtAuthenticationController {
         System.out.println("username:" + authenticationRequest.getUsername() + ",password:" + authenticationRequest.getPassword());
         try {
             if (userService.getUser(authenticationRequest.getUsername()).getStatus() <= 0) {
-                throw new BannedUserException();
+                System.out.println(userService.getUser(authenticationRequest.getUsername()));
             }
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         } catch (BannedUserException e) {

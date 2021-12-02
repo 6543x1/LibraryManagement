@@ -45,6 +45,7 @@ public class User implements Serializable {
      */
     @TableField(value = "role")
     private Role role;
+
     @TableField(value = "status")
     private int status;
 

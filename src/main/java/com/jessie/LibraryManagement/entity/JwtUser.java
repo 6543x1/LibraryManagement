@@ -7,16 +7,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JwtUser implements UserDetails {
     private static final long serialVersionUID = 1L;
 
-    private final int id;
-    private final String username;
-    private final String password;
-    private final Collection<? extends GrantedAuthority> authorities;
-    private final boolean enabled;
+    private int uid;
+    private String username;
+    private String password;
+    private Collection<? extends GrantedAuthority> authorities;
+    private boolean enabled;
 
     public JwtUser(
             int id,
@@ -24,7 +25,7 @@ public class JwtUser implements UserDetails {
             String password, List<String> authorities,
             boolean enabled
     ) {
-        this.id = id;
+        this.uid = id;
         this.username = username;
         this.password = password;
         this.authorities = mapToGrantedAuthorities(authorities);
@@ -37,10 +38,33 @@ public class JwtUser implements UserDetails {
             String password, String authoritie,
             boolean enabled
     ) {
-        this.id = id;
+        this.uid = id;
         this.username = username;
         this.password = password;
         this.authorities = mapToGrantedAuthorities(authoritie);
+        this.enabled = enabled;
+    }
+    public JwtUser(int id,String username,String password,boolean enabled){
+        this.uid=id;
+        this.username=username;
+        this.password=password;
+        this.enabled=enabled;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -51,7 +75,7 @@ public class JwtUser implements UserDetails {
     @Override
     public String toString() {
         return "JwtUser{" +
-                "id='" + id + '\'' +
+                "uid='" + uid + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", authorities=" + authorities +
@@ -70,8 +94,11 @@ public class JwtUser implements UserDetails {
     }
 
     public int getId() {
-        return id;
+        return uid;
     }
+
+
+
 
     @Override
     public String getUsername() {

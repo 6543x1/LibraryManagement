@@ -2,7 +2,8 @@ package com.jessie.LibraryManagement.filter;
 
 
 import com.alibaba.fastjson.JSON;
-import com.jessie.LibraryManagement.config.UserDetailServiceImpl;
+import com.jessie.LibraryManagement.entity.Result;
+import com.jessie.LibraryManagement.service.impl.UserServiceImpl;
 import com.jessie.LibraryManagement.utils.JwtTokenUtil;
 import com.jessie.LibraryManagement.utils.RedisUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -24,7 +25,7 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
-    private UserDetailServiceImpl userDetailServiceImpl;
+    private UserServiceImpl userDetailServiceImpl;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

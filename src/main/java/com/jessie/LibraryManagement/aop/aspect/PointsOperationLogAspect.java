@@ -1,7 +1,6 @@
 package com.jessie.LibraryManagement.aop.aspect;
 
 import com.jessie.LibraryManagement.aop.PointsOperationLog;
-import com.jessie.LibraryManagement.service.StuPointsDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -67,25 +66,7 @@ public class PointsOperationLogAspect {
             }
             System.out.println(params);
         }
-        StuPointsDetail stuPointsDetail = new StuPointsDetail();
-        if("缺勤扣分".equals(annotation.module())){
-            stuPointsDetail.setPoints(-3);
-        }
-        else{
-        stuPointsDetail.setPoints((Integer) map.get("points"));}
-        stuPointsDetail.setClassID((String) map.get("classID"));
-        stuPointsDetail.setOperator((String) map.get("operator"));
-        stuPointsDetail.setReason((String) map.get("reason"));
-        stuPointsDetail.setId(0);
-        if (map.containsKey("student")) {
-            stuPointsDetail.setTarget((String) map.get("student"));
-            //注意一下 那个批量加分的里面是students}
-            stuPointsDetailService.newDetail(stuPointsDetail, Collections.singleton((String) map.get("student")));
-            //System.out.println(stuPointsDetail);
-        } else if (map.containsKey("students")) {
-            Set<String> set = (Set<String>) map.get("students");//别慌，强转就完事了
-            stuPointsDetailService.newDetail(stuPointsDetail, set);
-        }
+
     }
 
 }
