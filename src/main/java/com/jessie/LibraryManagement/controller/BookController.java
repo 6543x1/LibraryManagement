@@ -1,5 +1,6 @@
 package com.jessie.LibraryManagement.controller;
 
+import com.jessie.LibraryManagement.entity.BookBorrowVo;
 import com.jessie.LibraryManagement.entity.BookVo;
 import com.jessie.LibraryManagement.entity.Bookborrow;
 import com.jessie.LibraryManagement.entity.Result;
@@ -42,6 +43,19 @@ public class BookController {
         Bookborrow bookborrow=Bookborrow.builder().bookID(bookID).bookBorrower(getCurrentUid()).borrowTime(LocalDateTime.now()).days(borrowDays).build();
         bookborrowService.newBookBorrow(bookborrow);
         return Result.success("借书成功！请于"+borrowDays+"内归还");
+    }
+    @PostMapping(value = "/myBorrowed")
+    public Result myBorrowed(@RequestParam(defaultValue = "true") boolean finished){
+        List<BookBorrowVo> bookBorrowVos=null;
+        if(finished)
+        {
+            bookBorrowVos= bookborrowService.notFinishedBorrowed(getCurrentUid());
+        }
+        else{
+            bookBorrowVos=bookborrowService.finishedBorrow(getCurrentUid());
+        }
+
+        return Result.success("查询成功！",bookBorrowVos);
     }
 
 }
