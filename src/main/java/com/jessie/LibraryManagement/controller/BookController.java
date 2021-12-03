@@ -6,6 +6,7 @@ import com.jessie.LibraryManagement.entity.Bookborrow;
 import com.jessie.LibraryManagement.entity.Result;
 import com.jessie.LibraryManagement.exception.BookBorrowedException;
 import com.jessie.LibraryManagement.exception.NotYourBookException;
+import com.jessie.LibraryManagement.exception.TooManyBooksException;
 import com.jessie.LibraryManagement.service.BookService;
 import com.jessie.LibraryManagement.service.BookborrowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.jessie.LibraryManagement.service.impl.UserServiceImpl.getCurrentUid;
 
@@ -41,6 +43,17 @@ public class BookController {
     @PostMapping(value = "/searchBook",produces = "application/json;charset=UTF-8")
     public Result searchBook(String bookName){
        List<BookVo> list=bookService.searchByBookName(bookName);
+        return Result.success("搜索成功!",list);
+    }
+    @PostMapping(value = "/searchBookByAuthor",produces = "application/json;charset=UTF-8")
+    public Result searchBookByAuthor(String author){
+        List<BookVo> list=bookService.searchByAuthor(author);
+        return Result.success("搜索成功!",list);
+    }
+
+    @PostMapping(value = "/searchBookByISBN",produces = "application/json;charset=UTF-8")
+    public Result searchBookByISBN(String ISBN){
+        List<BookVo> list=bookService.searchByBookName(ISBN);
         return Result.success("搜索成功!",list);
     }
     @PostMapping(value = "/borrowBook")
@@ -72,6 +85,18 @@ public class BookController {
             bookborrowService.finishBorrow(bookID, getCurrentUid());
         }catch (NotYourBookException e){
             return Result.error("这不是你的书！");
+        }
+        return Result.success("归还成功！");
+    }
+
+    @PostMapping(value = "/returnBookByISBN")
+    public Result returnBookByISBN(String ISBN){
+        try {
+            bookborrowService.returnByISBN(ISBN);
+        }catch (NotYourBookException e){
+            return Result.error("这不是你的书！");
+        }catch(TooManyBooksException e){
+            return Result.error("你没有借本书,或者借了多本同ISBN的书！");
         }
         return Result.success("归还成功！");
     }

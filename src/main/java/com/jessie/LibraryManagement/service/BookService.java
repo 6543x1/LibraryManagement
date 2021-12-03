@@ -20,4 +20,8 @@ public interface BookService extends IService<Book> {
     Book getOneBook(String ISBN);
 
     List<BookVo> searchByBookName(String name);
+
+    List<BookVo> searchByAuthor(String name);
+
+    List<BookVo> searchByISBN(String name);
 }

@@ -26,6 +26,9 @@ public interface BookMapper extends BaseMapper<Book> {
     @Select("select b.*,b2.bookID,b2.`position`,b2.borrowed from book b join bookinfo b2 on b.ISBN =b2.ISBN where match (b.bookName) against(#{bookName} IN natural language MODE)")
     List<BookVo> searchByBookName(String bookName);
     //直接加个是否借出属性吧，要不写这么长一串叠杀人书啊
+    List<BookVo> searchByAuthor(@Param("author") String author);
+
+    List<BookVo> searchByISBN(@Param("ISBN") String ISBN);
 
 
 }

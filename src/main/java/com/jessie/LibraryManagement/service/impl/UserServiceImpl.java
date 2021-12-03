@@ -8,6 +8,7 @@ import com.jessie.LibraryManagement.entity.myEnum.Role;
 import com.jessie.LibraryManagement.service.UserService;
 import com.jessie.LibraryManagement.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,6 +89,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Cacheable(value = "loadUserByUsername",key="#username")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.selectOneByUsername(username);
         if (user == null) {
@@ -103,14 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 //        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword()).authorities(permissionArray).build();
         return jwtUser;
     }
-//    public static int getCurrentUid(){
-//        if(getCurrentUsername()==null){
-//            return -1;
-//        }
-//        else{
-////            return userMapper.getCurrentUid;
-//        }
-//    }
+
 }
 
 

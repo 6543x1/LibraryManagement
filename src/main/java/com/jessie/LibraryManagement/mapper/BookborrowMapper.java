@@ -41,6 +41,11 @@ public interface BookborrowMapper extends BaseMapper<Bookborrow> {
 
     List<Bookborrow> selectAllByBookBorrowerAndBookID(@Param("bookBorrower") int bookBorrower, @Param("bookID") int bookID);
 
+    @Select("select b.*,b2.ISBN from bookborrow b join bookinfo b2 on b2.bookID = b.bookID where b.bookBorrower=#{bookBorrower} and b2.ISBN=#{ISBN} and b.finished=false")
+    List<Bookborrow> selectAllByBookIDANDISBN(int bookBorrower,String ISBN);
+
+
+
 }
 
 

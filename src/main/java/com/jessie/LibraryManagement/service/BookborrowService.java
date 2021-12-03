@@ -3,6 +3,7 @@ package com.jessie.LibraryManagement.service;
 import com.jessie.LibraryManagement.entity.BookBorrowVo;
 import com.jessie.LibraryManagement.entity.Bookborrow;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jessie.LibraryManagement.exception.TooManyBooksException;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface BookborrowService extends IService<Bookborrow> {
 
 
     List<BookBorrowVo> allNotFinished();
+
+    void returnByISBN(String ISBN) throws TooManyBooksException;
 }

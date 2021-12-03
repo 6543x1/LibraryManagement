@@ -1,5 +1,6 @@
 package com.jessie.LibraryManagement.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -45,6 +46,7 @@ public class Bookborrow implements Serializable {
      * 
      */
     @TableField(value = "borrowTime")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime borrowTime;
 
     @TableField(value = "finished")

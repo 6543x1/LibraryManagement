@@ -55,6 +55,15 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book>
     public List<BookVo> searchByBookName(String name){
         return bookMapper.searchByBookName(name);
     }
+
+    @Override
+    public List<BookVo> searchByAuthor(String name){
+        return bookMapper.searchByAuthor(name);
+    }
+    @Override
+    public List<BookVo> searchByISBN(String ISBN){
+        return bookMapper.searchByISBN(ISBN);
+    }
 }
 
 

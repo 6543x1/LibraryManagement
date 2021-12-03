@@ -39,5 +39,19 @@
         where
         ISBN = #{ISBN}
     </select>
+    <select id="searchByAuthor" resultType="com.jessie.LibraryManagement.entity.BookVo">
+        select
+        bookName, b.ISBN, author, type, bookID, position, borrowed
+        from book join bookinfo b on book.ISBN = b.ISBN
+        where
+        book.author = #{author,jdbcType=VARCHAR}
+    </select>
+    <select id="searchByISBN" resultType="com.jessie.LibraryManagement.entity.BookVo">
+        select
+        bookName, b.ISBN, author, type, bookID, position,borrowed
+        from book b join bookinfo b2 on b.ISBN = b2.ISBN
+        where
+        b.ISBN = #{ISBN}
+    </select>
 
 </mapper>

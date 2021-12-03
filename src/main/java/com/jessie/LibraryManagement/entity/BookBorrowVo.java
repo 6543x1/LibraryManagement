@@ -1,5 +1,6 @@
 package com.jessie.LibraryManagement.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.*;
 
@@ -28,11 +29,14 @@ public class BookBorrowVo {
     /**
      *
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime borrowTime;
 
     private String bookName;
     private String ISBN;
     private String position;
     private boolean finished;
+    private String author;
+    private String type;
 
 }

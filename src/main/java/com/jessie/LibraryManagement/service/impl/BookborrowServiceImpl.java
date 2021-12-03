@@ -6,6 +6,7 @@ import com.jessie.LibraryManagement.entity.Bookborrow;
 import com.jessie.LibraryManagement.entity.Bookinfo;
 import com.jessie.LibraryManagement.exception.BookBorrowedException;
 import com.jessie.LibraryManagement.exception.NotYourBookException;
+import com.jessie.LibraryManagement.exception.TooManyBooksException;
 import com.jessie.LibraryManagement.mapper.BookMapper;
 import com.jessie.LibraryManagement.mapper.BookinfoMapper;
 import com.jessie.LibraryManagement.service.BookborrowService;
@@ -14,11 +15,15 @@ import org.redisson.RedissonLock;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static com.jessie.LibraryManagement.service.impl.UserServiceImpl.getCurrentUid;
 
 /**
 * @author 16473
@@ -63,10 +68,12 @@ public class BookborrowServiceImpl extends ServiceImpl<BookborrowMapper, Bookbor
         }
     }
     @Override
+    @Cacheable(value = "readerBorrow",key="#uid")
     public List<Bookborrow> getReaderBorrow(int uid){
         return bookborrowMapper.selectAllByBookBorrower(uid);
     }
     @Override
+    @CacheEvict(value = "readerBorrow",key="#uid")
     public void finishBorrow(int bookID, int uid) throws NotYourBookException{
         List<Bookborrow> bookborrows=bookborrowMapper.selectAllByBookBorrowerAndBookID(uid,bookID);
         if(bookborrows==null||bookborrows.size()!=1){
@@ -95,6 +102,20 @@ public class BookborrowServiceImpl extends ServiceImpl<BookborrowMapper, Bookbor
     @Override
     public List<BookBorrowVo> allNotFinished(){
         return bookborrowMapper.allNotFinishedBorrowed();
+    }
+
+    @Override
+    public void returnByISBN(String ISBN) throws TooManyBooksException,NotYourBookException{
+        List<Bookborrow> bookborrows = bookborrowMapper.selectAllByBookIDANDISBN(getCurrentUid(), ISBN);
+        System.out.println(getCurrentUid());
+        System.out.println(ISBN);
+        System.out.println(bookborrows);
+        if(bookborrows.size()==1){
+            finishBorrow(bookborrows.get(0).getBookID(),getCurrentUid());
+        }
+        else{
+            throw new TooManyBooksException();
+        }
     }
 }
 
