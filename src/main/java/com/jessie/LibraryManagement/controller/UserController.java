@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import static com.jessie.LibraryManagement.service.impl.UserServiceImpl.getCurrentUid;
 
 @RestController
@@ -31,6 +34,7 @@ public class UserController
     @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/testResult")
     public Result testRole(){
+
         return Result.success("success!",getCurrentUid());
     }
 }

@@ -33,6 +33,8 @@ public class BookController {
     @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/newBook")
     public Result newBook(BookVo bookVo){
+        System.out.println(bookVo);
+        System.out.println(bookVo.getISBN().length());
         bookService.newBookVo(bookVo);
         return Result.success("成功加入新书!",getCurrentUid());
     }
