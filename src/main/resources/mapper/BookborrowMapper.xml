@@ -37,4 +37,12 @@
         where
         bookID = #{bookID,jdbcType=NUMERIC}
     </select>
+    <select id="selectAllByBookBorrowerAndBookID" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bookborrow
+        where
+        bookBorrower = #{bookBorrower}
+        AND bookID = #{bookID}
+    </select>
 </mapper>

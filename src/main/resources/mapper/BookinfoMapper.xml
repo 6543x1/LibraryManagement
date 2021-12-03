@@ -33,4 +33,10 @@
             <if test="ISBN != null">#{ISBN,jdbcType=VARCHAR},</if>
         </trim>
     </insert>
+    <update id="updateBorrowedByBookID">
+        update bookinfo
+        set borrowed = #{borrowed}
+        where bookID = #{bookID}
+    </update>
+
 </mapper>

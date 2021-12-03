@@ -19,6 +19,8 @@ public interface BookborrowService extends IService<Bookborrow> {
 
     void finishBorrow(int bookID, int uid);
 
+    void setBorrow(int bookID, int bookBorrower);
+
     List<BookBorrowVo> notFinishedBorrowed(int uid);
 
     List<BookBorrowVo> finishedBorrow(int uid);

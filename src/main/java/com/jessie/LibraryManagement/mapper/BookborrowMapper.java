@@ -39,6 +39,8 @@ public interface BookborrowMapper extends BaseMapper<Bookborrow> {
             "where b.bookID in (select bookID from bookborrow b4 where b4.finished=false)")
     List<BookBorrowVo> allNotFinishedBorrowed();
 
+    List<Bookborrow> selectAllByBookBorrowerAndBookID(@Param("bookBorrower") int bookBorrower, @Param("bookID") int bookID);
+
 }
 
 
