@@ -76,6 +76,7 @@ public class BookborrowServiceImpl extends ServiceImpl<BookborrowMapper, Bookbor
     @CacheEvict(value = "readerBorrow",key="#uid")
     public void finishBorrow(int bookID, int uid) throws NotYourBookException{
         List<Bookborrow> bookborrows=bookborrowMapper.selectAllByBookBorrowerAndBookID(uid,bookID);
+        System.out.println(bookborrows);
         if(bookborrows==null||bookborrows.size()!=1){
             throw new NotYourBookException();
         }

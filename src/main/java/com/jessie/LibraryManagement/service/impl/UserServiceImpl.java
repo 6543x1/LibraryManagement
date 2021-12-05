@@ -89,7 +89,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Cacheable(value = "loadUserByUsername",key="#username")
+//    @Cacheable(value = "loadUserByUsername",key="#username")//缓存反序列化出问题了
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.selectOneByUsername(username);
         if (user == null) {

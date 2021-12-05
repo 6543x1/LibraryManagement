@@ -43,6 +43,6 @@
         from bookborrow
         where
         bookBorrower = #{bookBorrower}
-        AND bookID = #{bookID}
+        AND bookID = #{bookID} and finished=false
     </select>
 </mapper>
